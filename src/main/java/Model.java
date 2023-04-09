@@ -41,8 +41,8 @@ public class Model {
         this.main = main;
     }
 
-    private  Double temperature;
-    private  Double humidity;
+    private Double temperature;
+    private Double humidity;
     private String icon;
-    private  String main;
+    private String main;
 }

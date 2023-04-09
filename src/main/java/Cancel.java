@@ -1,14 +1,14 @@
 import java.sql.*;
 
 public class Cancel {
-    public  static int  id_Delivery ;
-    public  static String ClientName ;
-    public static String CompanyName ;
-    public  static Double Weight ;
-    public  static String Data ;
-    public static String From ;
-    public  static String To ;
-    public  static String Status ;
+    public static int id_Delivery;
+    public static String ClientName;
+    public static String CompanyName;
+    public static Double Weight;
+    public static String Data;
+    public static String From;
+    public static String To;
+    public static String Status;
 
 
     // JDBC URL, username and password of MySQL server
@@ -23,22 +23,17 @@ public class Cancel {
     public static void Sql(int b) {
 
         try {
-            String query = "UPDATE xakaton.DeliveryInformation SET Status = 'Отменено' WHERE `id_Delivery` = " + b + ";"; // нужно добавить переменную для айди
-            // opening database connection to MySQL server
+            String query = "UPDATE xakaton.DeliveryInformation SET Status = 'Отменено' WHERE `id_Delivery` = " + b + ";";
             con = DriverManager.getConnection(url, user, password);
 
-            // getting Statement object to execute query
             stmt = con.createStatement();
 
-            // executing SELECT query
             stmt.executeUpdate(query);
-
 
 
         } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         } finally {
-            //close connection ,stmt and resultset here
             try {
                 con.close();
             } catch (SQLException se) { /*can't do anything */ }

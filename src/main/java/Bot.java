@@ -20,7 +20,7 @@ public class Bot extends TelegramLongPollingBot {
     public String c;
 
     public static void main(String[] args) throws TelegramApiException {
-        TelegramBotsApi telegramBotsApi =  new TelegramBotsApi(DefaultBotSession.class);
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         try {
             telegramBotsApi.registerBot(new Bot());
@@ -28,10 +28,9 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
 
-
     }
 
-    public void sendMsg(Message message, String text){ // Метод отвечает за отправку сообщения
+    public void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
@@ -45,15 +44,15 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public  void onUpdateReceived(Update update){ // Метод который слуашет сообщения в чате
+    public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-        if(message != null && message.hasText()){
-            switch (message.getText()){
+        if (message != null && message.hasText()) {
+            switch (message.getText()) {
                 case "/help":
                     sendMsg(message, "Справка: Ваш заказ имеет уникальный номер, который можно получить на сайте и ввести сюда по команде \n/status <номер>. Введя номер заказа вы получите подробную информацию о нем и его характеристиках.\n" +
                             "Вы можете отменить свой заказ введя команду \n/cancel <номер>. Также доступна информация о нашей компании по команде /contact.");
-                            break;
-                case "/contact" :
+                    break;
+                case "/contact":
                     sendMsg(message, "Наши контакты: \n" +
                             "Интернет-магазин: https://kramzos.ru/MARCHO/\n" +
                             "Телефон: +7 747 325 44 21\n" +
@@ -61,30 +60,23 @@ public class Bot extends TelegramLongPollingBot {
                             "Marcho Logistic Group, LLC");
                     break;
                 case "/cancel":
-                    sendMsg(message , "Введите команду /cancel <номер> заказа");
+                    sendMsg(message, "Введите команду /cancel <номер> заказа");
                     break;
                 case "/status":
-                    sendMsg(message , "Введите команду /status <номер> заказа");
+                    sendMsg(message, "Введите команду /status <номер> заказа");
                     break;
-             /*   case "/weather":
-                    try {
-                        sendMsg(message, Weather.gerWeather("Astana", model));
-                    } catch (IOException e) {
-                        sendMsg(message, "Такой город не найден!");
-                    }
-
-              */
                 default:
-                    sendMsg(message ,status(message));
-                    if(message == null){
-                        sendMsg(message ,"2");
+                    sendMsg(message, status(message));
+                    if (message == null) {
+                        sendMsg(message, "2");
                     }
 
             }
         }
 
     }
-    public  void setButtons (SendMessage sendMessage){ // Метод отвечает за кнопки
+
+    public void setButtons(SendMessage sendMessage) { // Метод отвечает за кнопки
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
@@ -101,23 +93,22 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
 
     }
-    public String status(Message message){ // Функционал комманд
-        String b =message.getText().toString();
-        String arr[] = b.split(" ",2);
+
+    public String status(Message message) {
+        String b = message.getText();
+        String arr[] = b.split(" ", 2);
         String firstWord = arr[0];
-        if(firstWord.equals("/status")){
+        if (firstWord.equals("/status")) {
             String theRest = arr[1];
-           int a = Integer.parseInt(theRest);//12345
+            int a = Integer.parseInt(theRest);
             MySql.Sql(a);
             return Query.query();
-        }
-        else if(firstWord.equals("/cancel")){
+        } else if (firstWord.equals("/cancel")) {
             String theRest = arr[1];
             int a = Integer.parseInt(theRest);
             Cancel.Sql(a);
             return "Ваш заказ отменен!";
-        }
-        else if(firstWord.equals("/weather")){
+        } else if (firstWord.equals("/weather")) {
             String theRest = arr[1];
             try {
                 sendMsg(message, Weather.gerWeather(theRest, model));
@@ -125,7 +116,7 @@ public class Bot extends TelegramLongPollingBot {
                 sendMsg(message, "Такой город не найден!");
             }
         }
-       return c;
+        return c;
 
 
     }
